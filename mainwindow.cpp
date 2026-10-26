@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include "core/entities.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsEllipseItem>
@@ -20,10 +21,17 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->graphicsView->scale(1, -1);
 
-    QGraphicsEllipseItem *ellipseItem = scene->addEllipse(0, 0, 100, 100, blackPen, blueBrush);
- 
-    scene->addLine(0, 0, 100, 100, redPen);
-    scene->addLine(0, 100, 0, 0, greenPen);
+    std::vector<Entity> entities = {
+        Line{{0, 0}, {100, 100}},
+        Circle{{50, 50}, 25}
+    };
+    
+    for (const auto& entity : entities){
+        std::visit(overloaded{
+            [&](const Line &lineItem){scene->addLine(lineItem.start.x, lineItem.start.y, lineItem.end.x, lineItem.end.y, blackPen);},
+            [&](const Circle &circleItem){scene->addEllipse(circleItem.center.x - circleItem.radius, circleItem.center.y - circleItem.radius, circleItem.radius * 2, circleItem.radius * 2, redPen, blueBrush);}
+        },entity);
+    }
 }
 
 MainWindow::~MainWindow() = default;
