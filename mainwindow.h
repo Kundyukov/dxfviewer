@@ -4,12 +4,12 @@
 #include <memory>
 
 #include <QMainWindow>
-#
+
+class QGraphicsScene;
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
-class GraphicsScene;
 }
 QT_END_NAMESPACE
 
