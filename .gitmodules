@@ -1,0 +1,4 @@
+[submodule "external/libdxfrw"]
+	path = external/libdxfrw
+	url = https://github.com/LibreCAD/libdxfrw.git
+	branch = master
