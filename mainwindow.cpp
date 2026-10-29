@@ -28,8 +28,21 @@ MainWindow::MainWindow(QWidget *parent)
     
     for (const auto& entity : entities){
         std::visit(overloaded{
-            [&](const Line &lineItem){scene->addLine(lineItem.start.x, lineItem.start.y, lineItem.end.x, lineItem.end.y, blackPen);},
-            [&](const Circle &circleItem){scene->addEllipse(circleItem.center.x - circleItem.radius, circleItem.center.y - circleItem.radius, circleItem.radius * 2, circleItem.radius * 2, redPen, blueBrush);}
+            [&](const Line &lineItem){
+                scene->addLine(lineItem.start.x, lineItem.start.y, lineItem.end.x, lineItem.end.y, blackPen);
+            },
+            [&](const Circle &circleItem){
+                scene->addEllipse(circleItem.center.x - circleItem.radius, circleItem.center.y - circleItem.radius, circleItem.radius * 2, circleItem.radius * 2, redPen, blueBrush);
+            },
+            [&](const Rectangle &rectangleItem){
+                //scene->addRect(rectangleItem.position.x, rectangleItem.position.y, rectangleItem.width, rectangleItem.height, greenPen);
+            },
+            [&](const Polygon &polygonItem){QPolygonF qPolygon;
+                for (const auto& vertex : polygonItem.vertices){
+                    qPolygon << QPointF(vertex.x, vertex.y);
+                }
+                //scene->addPolygon(qPolygon, blackPen);
+            }
         },entity);
     }
 }
